@@ -86,23 +86,23 @@ def login_user():
   return make_response('could not verify',  401, {'WWW.Authentication': 'Basic realm: "login required"'})
 
 
-@app.route('/users', methods=['GET'])
+@app.route('/view', methods=['GET'])
+@token_required
 def get_all_users():  
    
-   users = Users.query.all() 
+   products = products.query.all() 
 
    result = []   
 
-   for user in users:   
-       user_data = {}   
-       user_data['public_id'] = user.public_id  
-       user_data['name'] = user.name 
-       user_data['password'] = user.password
-       user_data['admin'] = user.admin 
+   for product in products:   
+       product_data = {}   
+       product_data['public_id'] = product.id  
+       product_data['name'] = product.name 
+       product_data['price'] = product.price
        
-       result.append(user_data)   
+       result.append(product_data)   
 
-   return jsonify({'users': result})
+   return jsonify({'products': result})
 
 @app.route('/product', methods=['POST', 'GET'])
 @token_required
